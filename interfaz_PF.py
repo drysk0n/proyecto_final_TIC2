@@ -1,6 +1,8 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 import matplotlib
 import random
+import sys
+import cv2
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
@@ -197,7 +199,6 @@ class Ui_MainWindow(object):
         self.detalle_humedad.show()
 
 if __name__ == "__main__":
-    import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
