@@ -7,6 +7,7 @@ matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 
+#Defino el widget que se despliega al apretar el boton "Detalle de humedad"
 class Ui_hum(object):
     def setupUi(self, hum):
         hum.setObjectName("hum")
@@ -56,6 +57,7 @@ class MplCanvas(FigureCanvasQTAgg):
         self.axes = fig.add_subplot(111)
         super(MplCanvas, self).__init__(fig)
 
+#Defino el widget que se despliega al apretar el boton "Detalle de temperatura"
 class Ui_temp(object):
     def setupUi(self, temp):
         temp.setObjectName("temp")
@@ -101,7 +103,7 @@ class Ui_temp(object):
 
 
 
-
+############################ Interfaz Principal ################################
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -138,7 +140,7 @@ class Ui_MainWindow(object):
         self.Temperatura_en_grados = QtWidgets.QLabel(parent=self.centralwidget)
         self.Temperatura_en_grados.setGeometry(QtCore.QRect(880, 10, 161, 51))
         self.Temperatura_en_grados.setObjectName("Temperatura_en_grados")
-        self.Camara = QtWidgets.QLabel(parent=self.centralwidget)
+        self.Camara = QtWidgets.QGridLayout(parent=self.centralwidget)
         self.Camara.setGeometry(QtCore.QRect(140, 70, 781, 471))
         self.Camara.setObjectName("Camara")
         self.pushButton_4 = QtWidgets.QPushButton(parent=self.centralwidget)
@@ -182,7 +184,6 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(_translate("MainWindow", "Mandar foto a Telegram"))
         self.pushButton_3.setText(_translate("MainWindow", "Activar riego automático"))
         self.Temperatura_en_grados.setText(_translate("MainWindow", "TextLabel"))
-        self.Camara.setText(_translate("MainWindow", "TextLabel"))
         self.pushButton_4.setText(_translate("MainWindow", "Detalle de humedad"))
         self.label.setText(_translate("MainWindow", "Último riego:"))
 
@@ -198,7 +199,7 @@ class Ui_MainWindow(object):
         self.ui_humedad.setupUi(self.detalle_humedad)
         self.detalle_humedad.show()
 
-#Integración de la camara en la interfaz
+#Integración de la camara en la interfaz con clase heredada y se muestra en el Q
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
