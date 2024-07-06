@@ -199,7 +199,7 @@ class Ui_MainWindow(object):
         self.ui_humedad.setupUi(self.detalle_humedad)
         self.detalle_humedad.show()
 
-#Integración de la camara en la interfaz con clase heredada y se muestra en el Q
+#Integración de la camara en la interfaz con clase heredada y se muestra en el QtGridLayout de Camara
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
