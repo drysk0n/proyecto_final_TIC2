@@ -6,6 +6,14 @@ import cv2
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
+import serial
+
+#dibuja la grafica
+class MplCanvas(FigureCanvasQTAgg):
+    def __init__(self, parent=None, width=5, height=4, dpi=100):
+        fig = Figure(figsize=(width, height), dpi=dpi)
+        self.axes = fig.add_subplot(111)
+        super(MplCanvas, self).__init__(fig)
 
 #Defino el widget que se despliega al apretar el boton "Detalle de humedad"
 class Ui_hum(object):
@@ -30,6 +38,8 @@ class Ui_hum(object):
 
         self.canvas = MplCanvas(self.gridLayoutWidget, width=5, height=4, dpi=100)
         self.graf_hum.addWidget(self.canvas)
+        
+        self.arduino = serial.Serial(port='COM3', baudrate=9600, timeout=.1)
 
         self.timer = QtCore.QTimer()
         self.timer.setInterval(1000)
@@ -46,18 +56,21 @@ class Ui_hum(object):
     #Aqui se deben cambiar los datos por los leidos en los sensores del arduino
     def update_plot(self):
         self.canvas.axes.cla()
-        xdata = [0, 1, 2, 3, 4]
-        ydata = [random.randint(0, 10) for _ in range(5)]
-        self.canvas.axes.plot(xdata, ydata)
-        self.canvas.draw()
+        try:
+            # Lee el dato del puerto serie
+            arduino_data = self.arduino.readline().decode('utf-8').strip()
+            if arduino_data:
+                sensor_value = int(arduino_data)
+                print(f"Valor del sensor: {sensor_value}")  # Para depuración
+                
+                # Actualiza la gráfica
+                xdata = list(range(5))  # Ejemplo de datos X
+                ydata = [random.randint(0, 10) for _ in range(4)] + [sensor_value]
+                self.canvas.axes.plot(xdata, ydata)
+                self.canvas.draw()
+        except Exception as e:
+            print(f"Error al leer datos del sensor: {e}")
 
-
-#dibuja la grafica
-class MplCanvas(FigureCanvasQTAgg):
-    def __init__(self, parent=None, width=5, height=4, dpi=100):
-        fig = Figure(figsize=(width, height), dpi=dpi)
-        self.axes = fig.add_subplot(111)
-        super(MplCanvas, self).__init__(fig)
 
 #Defino el widget que se despliega al apretar el boton "Detalle de temperatura"
 class Ui_temp(object):
