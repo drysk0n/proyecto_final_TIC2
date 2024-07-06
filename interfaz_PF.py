@@ -43,13 +43,15 @@ class Ui_hum(object):
         _translate = QtCore.QCoreApplication.translate
         hum.setWindowTitle(_translate("hum", "Gráficos de Humedad"))
         self.title_hum.setText(_translate("hum", "Gráficos de humedad"))
-
+    #Aqui se deben cambiar los datos por los leidos en los sensores del arduino
     def update_plot(self):
         self.canvas.axes.cla()
         xdata = [0, 1, 2, 3, 4]
         ydata = [random.randint(0, 10) for _ in range(5)]
         self.canvas.axes.plot(xdata, ydata)
         self.canvas.draw()
+
+
 #dibuja la grafica
 class MplCanvas(FigureCanvasQTAgg):
     def __init__(self, parent=None, width=5, height=4, dpi=100):
@@ -80,7 +82,7 @@ class Ui_temp(object):
 
         self.canvas = MplCanvas(self.gridLayoutWidget, width=5, height=4, dpi=100)
         self.graftemp.addWidget(self.canvas)
-
+        #cada cuanto actualiza
         self.timer = QtCore.QTimer()
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.update_plot)
@@ -93,7 +95,7 @@ class Ui_temp(object):
         _translate = QtCore.QCoreApplication.translate
         temp.setWindowTitle(_translate("temp", "Form"))
         self.title_temp.setText(_translate("temp", "Gráficos de temperatura"))
-
+    #Aqui se deben cambiar los datos por los leidos en los sensores del arduino
     def update_plot(self):
         self.canvas.axes.cla()
         xdata = [0, 1, 2, 3, 4]
